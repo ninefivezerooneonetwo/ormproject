@@ -1,0 +1,13 @@
+{% load static %}
+<style>
+    section > h3 > img {
+        width: 100px;
+    }
+</style>
+<section>
+    <h1>Item List</h1>
+    {% for o in objs %}
+    <h3><img src="/static/img/{{o.imgname}}">
+        <a href="/item/g/{{o.id}}">{{o.id}}</a> {{o.name}}</h3>
+    {% endfor %}
+</section>

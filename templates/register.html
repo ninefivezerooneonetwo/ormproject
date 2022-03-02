@@ -1,0 +1,12 @@
+<section>
+    <h1>REGISTER</h1>
+    <form action="registerimpl" method="post">
+        {% csrf_token %}
+        ID<input type="text" name="id"><br>
+        PWD<input type="text" name="pwd"><br>
+        NAME<input type="text" name="name"><br>
+        <input type="submit" value="register">
+        <input type="reset" value="reset">
+    </form>
+
+</section>

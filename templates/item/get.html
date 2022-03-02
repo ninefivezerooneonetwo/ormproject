@@ -1,0 +1,30 @@
+<script>
+    $(document).ready(function () {
+        $('section > #add_cart').click(function () {
+            num = $('section > input[name="num"]').val();
+            // alert(num + ' ' + '{{obj.id}}' + ' ' +'{{request.session.sessionid}}')
+            var c = confirm('장바구니에 넣겠습니까?');
+            if (c == true) {
+                location.href='/cart/i/' + num + '/' + '{{obj.id}}' + '/' + '{{request.session.sessionid}}';
+            };
+        });
+    });
+</script>
+<style>
+    img {
+        width: 200px;
+        height: 200px;
+    }
+</style>
+<section>
+    <h1>Item Detail</h1>
+    <img src="/static/img/{{obj.imgname}}">
+    <h3>ID: {{obj.id}}</h3>
+    <h3>NAME: {{obj.name}}</h3>
+    <h3>PRICE: {{obj.price}}</h3>
+    <h3>DATE: {{obj.regdate}}</h3>
+    <input type="number" name="num" size="5">
+    <a href="#" id="add_cart">ADD CART</a><br>
+    <a href="/item/d/{{obj.id}}">DELETE</a>
+    <a href="/item/uv/{{obj.id}}">UPDATE</a>
+</section>

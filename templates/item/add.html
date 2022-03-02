@@ -1,0 +1,10 @@
+<section>
+    <h1>Item Add</h1>
+    <form action="/item/i" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        NAME <input type="text" name="name"><br>
+        PRICE <input type="number" name="price"><br>
+        IMG <input type="file" name="img"><br>
+        <input type="submit" value="ADD">
+    </form>
+</section>

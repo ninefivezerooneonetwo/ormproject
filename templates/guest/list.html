@@ -1,0 +1,6 @@
+<section>
+    <h1>Guest List</h1>
+    {% for o in objs %}
+    <h3><a href="/guest/g/{{o.id}}">{{o.id}}</a> {{o.title}}</h3>
+    {% endfor %}
+</section>
