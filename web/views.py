@@ -98,3 +98,10 @@ class MyView(View):
             'center': 'geo.html'
         };
         return render(request, 'home.html', context)
+
+    @request_mapping("/location", method="get")
+    def location(self, request):
+        context = {
+            'center': 'location.html'
+        };
+        return render(request, 'home.html', context)
