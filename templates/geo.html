@@ -4,20 +4,146 @@
         width: 400px;
         height: 400px;
     }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        align-content: center;
+    }
 </style>
 <script>
     $(document).ready(function () {
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(37.5666805, 126.9784147), // 지도의 중심좌표
-                level: 3 // 지도의 확대 레벨
+                center: new kakao.maps.LatLng(37.517129, 127.057606), // 지도의 중심좌표
+                level: 6 // 지도의 확대 레벨
             };
+
+        var map = new kakao.maps.Map(mapContainer, mapOption)
+        // 일반 지도와 스카이뷰로 지도 타입을 전환할 수 있는 지도타입 컨트롤을 생성합니다
+        var mapTypeControl = new kakao.maps.MapTypeControl();
+
+        // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
+        // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
+        map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
+
+        // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+        var zoomControl = new kakao.maps.ZoomControl();
+        map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
         // 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
         var map = new kakao.maps.Map(mapContainer, mapOption);
+
+        $('#seoul').click(function () {
+            // 37.5666805, 126.9784147
+            var moveLatLon = new kakao.maps.LatLng(37.5666805, 126.9784147);
+            // 지도 중심을 이동 시킵니다
+            map.setCenter(moveLatLon);
+            var position =  new kakao.maps.LatLng(37.5656805, 126.9774147);
+
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                position: position
+            });
+
+            // 마커를 지도에 표시합니다.
+            marker.setMap(map);
+
+            var iwContent = '<div style="padding:5px;">귀여운 강쥐!</div><img class="logo" src="static/img/cutie.jpg">';
+            // 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content : iwContent
+            });
+            // 마커에 마우스오버 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'mouseover', function() {
+          // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
+            infowindow.open(map, marker);
+            });
+
+        // 마커에 마우스아웃 이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'mouseout', function() {
+            // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
+            infowindow.close();
+            });
+
+        kakao.maps.event.addListener(marker, 'click', function() {
+            location.href='http://www.naver.com'
+            });
+        });
+
+        $('#busan').click(function () {
+            // 35.180028766799225, 129.0750187151504
+            var moveLatLon = new kakao.maps.LatLng(35.180028766799225, 129.0750187151504);
+            // 지도 중심을 이동 시킵니다
+            map.setCenter(moveLatLon);
+
+            // 마커를 표시할 위치와 내용을 가지고 있는 객체 배열입니다
+            var positions = [
+                {
+                    content: '<div>카카오</div>',
+                    latlng: new kakao.maps.LatLng(35.170028766799225, 129.0850187151504),
+                    target: 'http://www.naver.com'
+                },
+                {
+                    content: '<div>생태연못</div>',
+                    latlng: new kakao.maps.LatLng(35.180128766799225, 129.0751187151504),
+                    target: 'http://www.google.com'
+                },
+                {
+                    content: '<div>텃밭</div>',
+                    latlng: new kakao.maps.LatLng(35.190025766799225, 129.0750185151504),
+                    target: 'http://www.daum.net'
+                },
+                {
+                    content: '<div>근린공원</div>',
+                    latlng: new kakao.maps.LatLng(35.187028766799225, 129.0720187151504),
+                    target: 'http://www.twitter.com'
+                }
+            ];
+
+        for (var i = 0; i < positions.length; i ++) {
+            // 마커를 생성합니다
+            var marker = new kakao.maps.Marker({
+                map: map, // 마커를 표시할 지도
+                position: positions[i].latlng // 마커의 위치
+            });
+
+            // 마커에 표시할 인포윈도우를 생성합니다
+            var infowindow = new kakao.maps.InfoWindow({
+                content: positions[i].content // 인포윈도우에 표시할 내용
+            });
+
+            // 마커에 mouseover 이벤트와 mouseout 이벤트를 등록합니다
+            // 이벤트 리스너로는 클로저를 만들어 등록합니다
+            // for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트가 등록됩니다
+            kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+            kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+            kakao.maps.event.addListener(marker, 'click', makeClickListener(positions[i].target));
+        }
+
+        function makeClickListener(target) {
+            return function () {
+                location.href = target
+            };
+        };
+        // 인포윈도우를 표시하는 클로저를 만드는 함수입니다
+        function makeOverListener(map, marker, infowindow) {
+            return function() {
+                infowindow.open(map, marker);
+            };
+        }
+
+        // 인포윈도우를 닫는 클로저를 만드는 함수입니다
+        function makeOutListener(infowindow) {
+            return function() {
+                infowindow.close();
+                };
+            }
+        });
     });
 </script>
 <section>
     <h1>MAP</h1>
+    <button id="seoul">서울</button> <button id="busan">부산</button>
     <div id="map"></div>
 </section>
