@@ -91,3 +91,10 @@ class MyView(View):
             context['rname'] = name
 
         return render(request, 'home.html', context);
+
+    @request_mapping("/geo", method="get")
+    def geo(self, request):
+        context = {
+            'center': 'geo.html'
+        };
+        return render(request, 'home.html', context)

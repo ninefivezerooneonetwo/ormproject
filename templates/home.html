@@ -6,6 +6,7 @@
     <title>Title</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/layout.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=c2dc7659e4423199c99a1ddf680b51fb"></script>
     <style>
 
     </style>
@@ -30,7 +31,7 @@
             <li><a href="/item/a">item</a></li>
             <li><a href="/item/iv">add item</a></li>
             <li><a href="/cart/a">cart</a></li>
-
+            <li><a href="/geo">map</a></li>
         </ul>
     </nav>
     {% if center != None %}
