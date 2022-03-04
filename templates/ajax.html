@@ -1,0 +1,42 @@
+<style>
+    div {
+        margin: 0 auto; /* 가운데에 */
+        width: 300px;
+        border: 2px solid paleturquoise;
+    }
+
+</style>
+
+<script>
+    function display(data) {
+        var result = '';
+        $(data).each(function(index, item){
+            result += '<h3>';
+            result += item.id + ' ' + item.name + ' ' + item.age;
+            result += '</h3>';
+        });
+        $('div').html(result)
+    }
+    function getdata() {
+        $.ajax({
+            url: 'ajaximpl',
+            success: function(data){
+                display(data);
+            }
+        });
+
+    }
+    $(document).ready(function () {
+        // setInterval(function () {
+           // getdata();
+        // }, 3000);
+        $('button').click(function () {
+           getdata();
+        });
+    });
+</script>
+<section>
+    <h1>AJAX PAGE</h1>
+    <button>GET DATA</button>
+    <div></div>
+</section>

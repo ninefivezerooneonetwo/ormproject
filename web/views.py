@@ -1,5 +1,7 @@
+import json
 import logging
 
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from django_request_mapping import request_mapping
@@ -13,6 +15,61 @@ class MyView(View):
     @request_mapping("/", method="get")
     def home(self,request):
         return render(request,'home.html');
+
+    @request_mapping("/ajax", method="get")
+    def ajax(self, request):
+        context = {
+            'center': 'ajax.html'
+        }
+
+        return render(request, 'home.html', context);
+
+    @request_mapping("/ajaximpl", method="get")
+    def ajaximpl(self, request):
+        data = [];
+
+        for i in range(1, 10):
+            dic = {}
+            dic['id'] = 'id' + str(i);
+            dic['name'] = 'james' + str(i);
+            dic['age'] = i;
+            data.append(dic);
+
+        return HttpResponse(json.dumps(data), content_type='application/json')
+
+    @request_mapping("/geoimpl", method="get")
+    def geoimpl(self, request):
+        data = [];
+
+        dic1 = {}
+        dic1['content'] = 'naver'
+        dic1['lat'] = 35.170028766799225
+        dic1['lng'] = 129.0850187151504
+        dic1['target'] = 'http://www.naver.com'
+
+        dic2 = {}
+        dic2['content'] = 'daum'
+        dic2['lat'] = 35.180128766799225
+        dic2['lng'] = 129.0751187151504
+        dic2['target'] = 'http://www.daum.net'
+
+        dic3 = {}
+        dic3['content'] = 'google'
+        dic3['lat'] = 35.190025766799225
+        dic3['lng'] = 129.0750185151504
+        dic3['target'] = 'http://www.google.com'
+
+        dic4 = {}
+        dic4['content'] = 'instagram'
+        dic4['lat'] = 35.187028766799225
+        dic4['lng'] = 129.0720187151504
+        dic4['target'] = 'http://www.instagram.com'
+
+        data.append(dic1)
+        data.append(dic2)
+        data.append(dic3)
+        data.append(dic4)
+        return HttpResponse(json.dumps(data), content_type='application/json')
 
     @request_mapping("/iot", method="get")
     def iot(self, request):
@@ -105,3 +162,4 @@ class MyView(View):
             'center': 'location.html'
         };
         return render(request, 'home.html', context)
+
