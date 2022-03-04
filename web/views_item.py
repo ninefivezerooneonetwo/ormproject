@@ -25,11 +25,11 @@ class ItemView(View):
         obj = Item.objects.get(id=pk);
 
         # ---------------------------------------------
-        name = 'guest'
-        if request.session['sessionname'] != None:
-            name = request.session['sessionname']
-        logger = logging.getLogger('iot_file');
-        logger.debug(obj.name + ', ' + str(obj.price) + ', ' + name)
+        # name = 'guest'
+        # if request.session['sessionname'] != None:
+        #     name = request.session['sessionname']
+        # logger = logging.getLogger('iot_file');
+        # logger.debug(obj.name + ', ' + str(obj.price) + ', ' + name)
         #----------------------------------------------
 
         context = {
